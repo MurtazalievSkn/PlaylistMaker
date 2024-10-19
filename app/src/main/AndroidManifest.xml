@@ -28,9 +28,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.ui.player.activity.PlayerActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

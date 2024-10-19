@@ -1,18 +1,19 @@
 package com.example.playlistmaker.presentation.ui.media.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.MediaFavoriteFragmentBinding
 import com.example.playlistmaker.domain.search.model.Track
 import com.example.playlistmaker.presentation.isNightModeOn
 import com.example.playlistmaker.presentation.ui.BindingFragment
-import com.example.playlistmaker.presentation.ui.media.view_model.MediaFavoriteFragmentViewModel
-import com.example.playlistmaker.presentation.ui.player.activity.PlayerActivity
+import com.example.playlistmaker.presentation.ui.main.MainActivity
+import com.example.playlistmaker.presentation.ui.media.view_model.MediaFavoriteViewModel
 import com.example.playlistmaker.presentation.ui.search.common.TrackListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,7 +21,7 @@ class MediaFavoriteFragment: BindingFragment<MediaFavoriteFragmentBinding>() {
 
     private lateinit var adapter: TrackListAdapter
     private lateinit var tracks: ArrayList<Track>
-    private val viewModel by viewModel<MediaFavoriteFragmentViewModel>()
+    private val viewModel by viewModel<MediaFavoriteViewModel>()
 
     private val onClick: (track: Track) -> Unit = {
         if (viewModel.clickDebounce()) {
@@ -42,13 +43,14 @@ class MediaFavoriteFragment: BindingFragment<MediaFavoriteFragmentBinding>() {
         viewModel.onCreate()
         binding.rvFavoriteTracks.adapter = adapter
 
-        viewModel.getFavoriteTracks().observe(viewLifecycleOwner) {
+        viewModel.favoriteTracks().observe(viewLifecycleOwner) {
             showFavoriteTrackList(it)
         }
     }
 
     override fun onResume() {
         super.onResume()
+        (activity as? MainActivity)?.showNavBar()
         viewModel.onCreate()
     }
 
@@ -59,15 +61,15 @@ class MediaFavoriteFragment: BindingFragment<MediaFavoriteFragmentBinding>() {
 
     private fun showFavoriteTrackList(tracksFromDb: List<Track>) {
         if (tracksFromDb.isEmpty()) {
-            binding.ivImageError.visibility = View.VISIBLE
-            binding.tvMessageError.visibility = View.VISIBLE
-            binding.rvFavoriteTracks.visibility = View.GONE
+            binding.ivImageError.isVisible = true
+            binding.tvMessageError.isVisible = true
+            binding.rvFavoriteTracks.isVisible = false
             showErrorImage()
             tracks.clear()
         } else {
-            binding.ivImageError.visibility = View.GONE
-            binding.tvMessageError.visibility = View.GONE
-            binding.rvFavoriteTracks.visibility = View.VISIBLE
+            binding.ivImageError.isVisible = false
+            binding.tvMessageError.isVisible = false
+            binding.rvFavoriteTracks.isVisible = true
             tracks.clear()
             tracks.addAll(tracksFromDb)
             adapter.notifyDataSetChanged()
@@ -86,10 +88,11 @@ class MediaFavoriteFragment: BindingFragment<MediaFavoriteFragmentBinding>() {
     }
 
     private fun startPlayerActivity(track: Track) {
-        Intent(requireContext(), PlayerActivity::class.java).apply {
-            putExtra(MediaFavoriteFragment.TRACK_KEY, track)
-            startActivity(this)
-        }
+        (activity as? MainActivity)?.hideNavBar()
+
+        val bundle = Bundle()
+        bundle.putParcelable(MediaFavoriteFragment.TRACK_KEY, track)
+        findNavController().navigate(R.id.action_mediaFragment_to_playerFragment)
     }
 
     companion object {

@@ -133,5 +133,47 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="new_playlist_text_input_layout_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">16sp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+    </style>
+
+    <style name="bottom_sheet_player"
+        parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+    </style>
+
+    <style name="playlist_title_style">
+        <item name="android:textColor">@color/yp_black</item>
+    </style>
+
+    <style name="bottom_sheet_title_style">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="bottom_sheet_title_style2">
+        <item name="android:textColor">@color/yp_text_gray</item>
+    </style>
+
+    <style name="playlist_create_album_image">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="bottom_sheet_style">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="bottom_sheet_view_style">
+        <item name="android:backgroundTint">@color/yp_text_gray</item>
+    </style>
 
 </resources>

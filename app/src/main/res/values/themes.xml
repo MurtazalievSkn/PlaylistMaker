@@ -5,5 +5,12 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorControlNormal">@color/yp_blue</item>
+        <item name="colorControlActivated">@color/yp_blue</item>
+        <item name="colorControlHighlight">@color/yp_blue</item>
+        <item name="hintTextColor">@color/text_input_layout_color</item>
+    </style>
+
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker"/>
 </resources>

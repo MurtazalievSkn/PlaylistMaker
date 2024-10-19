@@ -1,14 +1,17 @@
 package com.example.playlistmaker.di
 
-import com.example.playlistmaker.data.converters.TrackDbConbertor
+import com.example.playlistmaker.data.converters.TrackDbConvertor
 import com.example.playlistmaker.data.media.impl.FavoriteTracksRepositoryImpl
+import com.example.playlistmaker.data.media.impl.PlaylistRepositoryImpl
 import com.example.playlistmaker.data.player.repositoryImpl.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.data.search.impl.SearchHistoryRepositoryImpl
 import com.example.playlistmaker.data.search.network.impl.TrackRepositoryImpl
 import com.example.playlistmaker.data.settings.impl.SettingsRepositoryImpl
 import com.example.playlistmaker.data.sharing.impl.SharingRepositoryImpl
 import com.example.playlistmaker.domain.db.FavoriteTracksRepository
+import com.example.playlistmaker.domain.db.PlaylistRepository
 import com.example.playlistmaker.domain.player.MediaPlayerRepository
+import com.example.playlistmaker.domain.player.models.MediaPlayerStatus
 import com.example.playlistmaker.domain.search.SearchHistoryRepository
 import com.example.playlistmaker.domain.search.TrackRepository
 import com.example.playlistmaker.domain.settings.SettingsRepository
@@ -27,7 +30,7 @@ val repositoryModule = module {
     }
 
     factory<MediaPlayerRepository> {
-        MediaPlayerRepositoryImpl(get())
+        MediaPlayerRepositoryImpl(get(), get())
     }
 
     factory<SettingsRepository> {
@@ -38,9 +41,15 @@ val repositoryModule = module {
         SharingRepositoryImpl(androidContext())
     }
 
-    factory { TrackDbConbertor() }
+    factory { TrackDbConvertor() }
+
+    factory { MediaPlayerStatus.STATE_DEFAULT }
 
     single<FavoriteTracksRepository> {
         FavoriteTracksRepositoryImpl(get(), get())
+    }
+
+    single<PlaylistRepository> {
+        PlaylistRepositoryImpl(get(), get())
     }
 }

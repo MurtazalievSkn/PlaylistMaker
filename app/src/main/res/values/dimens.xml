@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="primary_text_size_12">12sp</dimen>
     <dimen name="primary_text_size_13">13sp</dimen>
     <dimen name="primary_text_size_14">14sp</dimen>
     <dimen name="primary_text_size_16">16sp</dimen>
     <dimen name="primary_text_size_19">19sp</dimen>
     <dimen name="primary_text_size_22">22sp</dimen>
     <dimen name="primary_text_size_26">26sp</dimen>
+
+    <dimen name="padding4">4dp</dimen>
+    <dimen name="padding8">8dp</dimen>
+    <dimen name="padding12">12dp</dimen>
+    <dimen name="padding16">16dp</dimen>
+    <dimen name="padding20">20dp</dimen>
+    <dimen name="padding24">24dp</dimen>
+    <dimen name="padding28">28dp</dimen>
+    <dimen name="padding36">36dp</dimen>
+    <dimen name="padding48">48dp</dimen>
+    <dimen name="padding52">52dp</dimen>
+    <dimen name="padding60">60dp</dimen>
+    <dimen name="padding80">80dp</dimen>
 
     <dimen name="button_back_size">48dp</dimen>
     <dimen name="track_corner_radius">2dp</dimen>
@@ -20,16 +34,7 @@
     <dimen name="button_switch_height">48dp</dimen>
     <dimen name="button_switch_width">56dp</dimen>
     <dimen name="height40">40dp</dimen>
-    <dimen name="padding4">4dp</dimen>
-    <dimen name="padding8">8dp</dimen>
-    <dimen name="padding12">12dp</dimen>
-    <dimen name="padding16">16dp</dimen>
-    <dimen name="padding20">20dp</dimen>
-    <dimen name="padding24">24dp</dimen>
-    <dimen name="padding28">28dp</dimen>
-    <dimen name="padding36">36dp</dimen>
-    <dimen name="padding48">48dp</dimen>
-    <dimen name="padding52">52dp</dimen>
-    <dimen name="padding60">60dp</dimen>
-    <dimen name="padding80">80dp</dimen>
+    <dimen name="height56">56dp</dimen>
+    <dimen name="height72">72dp</dimen>
+
 </resources>

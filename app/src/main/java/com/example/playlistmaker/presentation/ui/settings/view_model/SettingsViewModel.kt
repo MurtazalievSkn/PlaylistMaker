@@ -7,8 +7,8 @@ import com.example.playlistmaker.domain.settings.SettingsInteractor
 import com.example.playlistmaker.domain.sharing.SharingInteractor
 
 class SettingsViewModel(
-    val sharingInteractorImpl: SharingInteractor,
-    val settingsInteractorImpl: SettingsInteractor,
+    private val sharingInteractorImpl: SharingInteractor,
+    private val settingsInteractorImpl: SettingsInteractor,
 ) : ViewModel() {
     private val _nightMode = MutableLiveData(getNightModeSettings())
     val nightMode: LiveData<Boolean> = _nightMode

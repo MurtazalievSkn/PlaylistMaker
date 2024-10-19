@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.player.activity.PlayerActivity">
+    tools:context=".presentation.ui.player.fragment.PlayerFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
@@ -45,8 +45,8 @@
             android:layout_width="@dimen/button_back_size"
             android:layout_height="@dimen/button_back_size"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/padding4"
             android:layout_marginLeft="@dimen/padding12"
+            android:layout_marginTop="@dimen/padding4"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/button_back"
@@ -106,15 +106,14 @@
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:maxLines="1"
+            android:text="@string/country"
             android:textAlignment="textStart"
             android:textColor="@color/yp_text_gray"
             android:textSize="@dimen/primary_text_size_13"
-            android:text="@string/country"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/country_name"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toStartOf="@id/leftBorder_16"
-            />
+            app:layout_constraintStart_toStartOf="@id/leftBorder_16" />
 
         <TextView
             android:id="@+id/country_name"
@@ -140,15 +139,14 @@
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:maxLines="1"
+            android:text="@string/genre"
             android:textAlignment="textStart"
             android:textColor="@color/yp_text_gray"
             android:textSize="@dimen/primary_text_size_13"
-            android:text="@string/genre"
             app:layout_constraintBottom_toTopOf="@id/country"
             app:layout_constraintEnd_toStartOf="@id/genre_name"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toStartOf="@id/leftBorder_16"
-            />
+            app:layout_constraintStart_toStartOf="@id/leftBorder_16" />
 
         <TextView
             android:id="@+id/genre_name"
@@ -174,15 +172,14 @@
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:maxLines="1"
+            android:text="@string/year"
             android:textAlignment="textStart"
             android:textColor="@color/yp_text_gray"
             android:textSize="@dimen/primary_text_size_13"
-            android:text="@string/year"
             app:layout_constraintBottom_toTopOf="@id/genre"
             app:layout_constraintEnd_toStartOf="@id/track_year"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toStartOf="@id/leftBorder_16"
-            />
+            app:layout_constraintStart_toStartOf="@id/leftBorder_16" />
 
         <TextView
             android:id="@+id/track_year"
@@ -201,22 +198,21 @@
             tools:text="1965" />
 
         <TextView
-            android:id="@+id/album"
+            android:id="@+id/iv_album"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding16"
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:maxLines="1"
+            android:text="@string/album"
             android:textAlignment="textStart"
             android:textColor="@color/yp_text_gray"
             android:textSize="@dimen/primary_text_size_13"
-            android:text="@string/album"
             app:layout_constraintBottom_toTopOf="@id/year"
             app:layout_constraintEnd_toStartOf="@id/album_name"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toStartOf="@id/leftBorder_16"
-            />
+            app:layout_constraintStart_toStartOf="@id/leftBorder_16" />
 
         <TextView
             android:id="@+id/album_name"
@@ -228,10 +224,10 @@
             android:maxLines="1"
             android:textAlignment="textEnd"
             android:textSize="@dimen/primary_text_size_13"
-            app:layout_constraintBottom_toBottomOf="@id/album"
+            app:layout_constraintBottom_toBottomOf="@id/iv_album"
             app:layout_constraintEnd_toEndOf="@id/rightBorder_16"
             app:layout_constraintHorizontal_weight="7"
-            app:layout_constraintStart_toEndOf="@id/album"
+            app:layout_constraintStart_toEndOf="@id/iv_album"
             tools:text="Yesterday(Remastered 2009)" />
 
         <TextView
@@ -242,15 +238,14 @@
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:maxLines="1"
+            android:text="@string/duration"
             android:textAlignment="textStart"
             android:textColor="@color/yp_text_gray"
             android:textSize="@dimen/primary_text_size_13"
-            android:text="@string/duration"
-            app:layout_constraintBottom_toTopOf="@id/album"
+            app:layout_constraintBottom_toTopOf="@id/iv_album"
             app:layout_constraintEnd_toStartOf="@id/track_duration"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toStartOf="@id/leftBorder_16"
-            />
+            app:layout_constraintStart_toStartOf="@id/leftBorder_16" />
 
         <TextView
             android:id="@+id/track_duration"
@@ -275,12 +270,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding28"
             android:fontFamily="@font/ys_display_medium"
+            android:text="0:00"
             android:textSize="@dimen/primary_text_size_14"
             app:layout_constraintBottom_toTopOf="@id/duration"
             app:layout_constraintEnd_toEndOf="@id/rightBorder_16"
             app:layout_constraintStart_toStartOf="@id/leftBorder_16"
-            android:text="0:00"
-            tools:text="0:30"/>
+            tools:text="0:30" />
 
         <ImageButton
             android:id="@+id/button_play"
@@ -327,4 +322,66 @@
             app:layout_constraintTop_toTopOf="@id/button_play"
             app:layout_constraintWidth_percent="0.14" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/playlists_bottom_sheet"
+        style="@style/bottom_sheet_style"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_sheet_background"
+        android:orientation="vertical"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="360dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone">
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounder" />
+
+        <TextView
+            style="@style/bottom_sheet_title_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ys_display_medium"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/padding20"
+            android:text="@string/add_to_playlist"
+            android:textSize="@dimen/primary_text_size_19" />
+
+        <Button
+            android:id="@+id/button_new_playlist"
+            style="@style/ButtonUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding24"
+            android:fontFamily="@font/ys_display_medium"
+            android:text="@string/new_playlist"
+            android:textAllCaps="false"
+            android:textSize="@dimen/primary_text_size_14"
+            app:cornerRadius="@dimen/radius_for_update_button" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_playlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/padding8"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

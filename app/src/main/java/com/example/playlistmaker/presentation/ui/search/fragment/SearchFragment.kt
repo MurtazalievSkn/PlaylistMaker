@@ -1,7 +1,6 @@
 package com.example.playlistmaker.presentation.ui.search.fragment
 
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
@@ -18,7 +18,7 @@ import com.example.playlistmaker.domain.search.model.Track
 import com.example.playlistmaker.domain.search.model.TrackSearchResult
 import com.example.playlistmaker.presentation.isNightModeOn
 import com.example.playlistmaker.presentation.ui.BindingFragment
-import com.example.playlistmaker.presentation.ui.player.activity.PlayerActivity
+import com.example.playlistmaker.presentation.ui.main.MainActivity
 import com.example.playlistmaker.presentation.ui.search.common.TrackListAdapter
 import com.example.playlistmaker.presentation.ui.search.view_model.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -52,13 +52,13 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
 
         tracks = ArrayList<Track>()
         searchAdapter = TrackListAdapter(tracks, onClick)
-        historyAdapter = TrackListAdapter(viewModel.getTracksHistory().value!!, onClick)
+        historyAdapter = TrackListAdapter(viewModel.tracksHistory().value!!, onClick)
 
-        viewModel.getFoundTracks().observe(viewLifecycleOwner) { it ->
+        viewModel.foundTracks().observe(viewLifecycleOwner) { it ->
             processingSearchStatus(it)
         }
 
-        viewModel.getTracksHistory().observe(viewLifecycleOwner) { it ->
+        viewModel.tracksHistory().observe(viewLifecycleOwner) { it ->
             historyAdapter.notifyDataSetChanged()
         }
 
@@ -86,11 +86,11 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.clearButton.visibility = clearButtonVisibility(s)
+                binding.clearButton.isVisible = !s.isNullOrEmpty()
                 binding.historyLayout.isVisible =
                     binding.searchEditText.hasFocus()
                             && s?.isEmpty() == true
-                            && viewModel.getTracksHistory().value!!.isNotEmpty()
+                            && viewModel.tracksHistory().value!!.isNotEmpty()
 //
 
                 editTextValue = binding.searchEditText.text.toString()
@@ -114,7 +114,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
         binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus
                 && binding.searchEditText.text.isEmpty()
-                && viewModel.getTracksHistory().value!!.isNotEmpty()
+                && viewModel.tracksHistory().value!!.isNotEmpty()
             ) {
                 updateRecyclerViewSearchHistory()
             } else {
@@ -125,6 +125,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
 
     override fun onResume() {
         super.onResume()
+        (activity as? MainActivity)?.showNavBar()
         viewModel.updateTrackHistory()
     }
 
@@ -134,10 +135,12 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
     }
 
     private fun startPlayerActivity(track: Track) {
-        Intent(requireContext(), PlayerActivity::class.java).apply {
-            putExtra(TRACK_KEY, track)
-            startActivity(this)
-        }
+
+        (activity as? MainActivity)?.hideNavBar()
+
+        val bundle = Bundle()
+        bundle.putParcelable(TRACK_KEY, track)
+        findNavController().navigate(R.id.action_searchFragment_to_playerFragment, bundle)
     }
 
     private fun updateRecyclerViewSearchHistory() {
@@ -146,23 +149,16 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
         historyAdapter.notifyDataSetChanged()
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
-    }
 
     private fun showImageError(typeError: SearchStatus) {
         if (typeError == SearchStatus.LIST_IS_EMPTY) {
             showNotFoundError()
         } else {
             showNetworkError()
-            binding.buttonUpdate.visibility = View.VISIBLE
+            binding.buttonUpdate.isVisible = true
         }
-        binding.messageImage.visibility = View.VISIBLE
-        binding.tvMessageError.visibility = View.VISIBLE
+        binding.messageImage.isVisible = true
+        binding.tvMessageError.isVisible = true
     }
 
     private fun showNotFoundError() {
@@ -192,13 +188,13 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
     }
 
     private fun hideErrorElements() {
-        binding.messageImage.visibility = View.GONE
-        binding.tvMessageError.visibility = View.GONE
-        binding.buttonUpdate.visibility = View.GONE
+        binding.messageImage.isVisible = false
+        binding.tvMessageError.isVisible = false
+        binding.buttonUpdate.isVisible = false
     }
 
     private fun hideRecyclerView() {
-        binding.rvTracks.visibility = View.GONE
+        binding.rvTracks.isVisible = false
     }
 
     private fun changeStateWhenSearchBarIsEmpty() {
@@ -213,10 +209,10 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
     }
 
     private fun showAndHideHistoryLayout(action: Boolean) {
-        if (action && viewModel.getTracksHistory().value!!.isNotEmpty() && binding.searchEditText.hasFocus()) {
-            binding.historyLayout.visibility = View.VISIBLE
+        if (action && viewModel.tracksHistory().value!!.isNotEmpty() && binding.searchEditText.hasFocus()) {
+            binding.historyLayout.isVisible = true
         } else {
-            binding.historyLayout.visibility = View.GONE
+            binding.historyLayout.isVisible = false
         }
     }
 
@@ -226,28 +222,28 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>() {
         hideErrorElements()
         when (trackSearchResult.status) {
             SearchStatus.DEFAULT -> {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.isVisible = false
             }
 
             SearchStatus.RESPONSE_RECEIVED -> {
-                binding.progressBar.visibility = View.GONE
-                binding.rvTracks.visibility = View.VISIBLE
+                binding.progressBar.isVisible = false
+                binding.rvTracks.isVisible = true
                 tracks.addAll(trackSearchResult.results)
                 searchAdapter.notifyDataSetChanged()
             }
 
             SearchStatus.LIST_IS_EMPTY -> {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.isVisible = false
                 showImageError(SearchStatus.LIST_IS_EMPTY)
             }
 
             SearchStatus.NETWORK_ERROR -> {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.isVisible = false
                 showImageError(SearchStatus.NETWORK_ERROR)
             }
 
             SearchStatus.LOADING -> {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.progressBar.isVisible = true
             }
         }
     }

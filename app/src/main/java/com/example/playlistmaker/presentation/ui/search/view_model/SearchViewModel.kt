@@ -24,19 +24,19 @@ class SearchViewModel (
     private var clickJob: Job? = null
     private var searchJob: Job? = null
 
-    private var tracksHistory: MutableLiveData<ArrayList<Track>> =
+    private val _tracksHistory: MutableLiveData<ArrayList<Track>> =
         MutableLiveData(searchHistoryInteractor.getTracksHistory())
 
-    fun getTracksHistory(): LiveData<ArrayList<Track>> =
-        tracksHistory
+    fun tracksHistory(): LiveData<ArrayList<Track>> =
+        _tracksHistory
 
-    private val foundTracks: MutableLiveData<TrackSearchResult> =
+    private val _foundTracks: MutableLiveData<TrackSearchResult> =
         MutableLiveData(TrackSearchResult(results = emptyList(), SearchStatus.DEFAULT))
 
-    fun getFoundTracks(): LiveData<TrackSearchResult> = foundTracks
+    fun foundTracks(): LiveData<TrackSearchResult> = _foundTracks
     
     private fun search() {
-        foundTracks.postValue(getLoadingStatus())
+        _foundTracks.postValue(getLoadingStatus())
         sendRequest()
     }
 
@@ -45,7 +45,7 @@ class SearchViewModel (
     }
 
     fun updateTrackHistory() {
-        tracksHistory.postValue(searchHistoryInteractor.getTracksHistory())
+        _tracksHistory.postValue(searchHistoryInteractor.getTracksHistory())
     }
 
     fun changeRequestText(text: String) {
@@ -70,7 +70,7 @@ class SearchViewModel (
     }
 
     fun deleteFoundTracks() {
-        foundTracks.postValue(TrackSearchResult(results = emptyList(), SearchStatus.DEFAULT))
+        _foundTracks.postValue(TrackSearchResult(results = emptyList(), SearchStatus.DEFAULT))
     }
 
     fun clickDebounce(): Boolean {
@@ -90,7 +90,7 @@ class SearchViewModel (
             trackInteractor
                 .searchTracks(requestText)
                 .collect{result->
-                    foundTracks.postValue(result)
+                    _foundTracks.postValue(result)
                 }
         }
     }
@@ -105,11 +105,11 @@ class SearchViewModel (
     override fun accept(trackSearchResult: TrackSearchResult) {
         when (trackSearchResult.status) {
             SearchStatus.RESPONSE_RECEIVED -> {
-                foundTracks.postValue(trackSearchResult)
+                _foundTracks.postValue(trackSearchResult)
             }
 
             SearchStatus.NETWORK_ERROR, SearchStatus.DEFAULT, SearchStatus.LIST_IS_EMPTY -> {
-                foundTracks.postValue(trackSearchResult)
+                _foundTracks.postValue(trackSearchResult)
             }
 
             SearchStatus.LOADING -> {

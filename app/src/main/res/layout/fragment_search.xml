@@ -51,7 +51,6 @@
                 android:paddingEnd="@dimen/padding12"
                 android:singleLine="true"
                 android:textColor="@color/yp_black"
-                android:textColorHint="@color/yp_text_gray"
                 android:textCursorDrawable="@drawable/edit_text_cursor" />
 
             <ImageButton

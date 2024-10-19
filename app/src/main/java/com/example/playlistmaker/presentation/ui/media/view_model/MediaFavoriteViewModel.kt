@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MediaFavoriteFragmentViewModel(
+class MediaFavoriteViewModel(
     private val favoriteTracksInteractor: FavoriteTracksInteractor
 ): ViewModel() {
 
@@ -20,16 +20,16 @@ class MediaFavoriteFragmentViewModel(
     private var dataBaseJob: Job? = null
 
 
-    private val favoriteTracks: MutableLiveData<List<Track>> =
+    private val _favoriteTracks: MutableLiveData<List<Track>> =
         MutableLiveData(ArrayList<Track>())
 
-    fun getFavoriteTracks(): LiveData<List<Track>> =
-        favoriteTracks
+    fun favoriteTracks(): LiveData<List<Track>> =
+        _favoriteTracks
 
     fun onCreate() {
         dataBaseJob = viewModelScope.launch(Dispatchers.IO) {
             favoriteTracksInteractor.getAllFavoriteTracks().collect { it ->
-                favoriteTracks.postValue(it)
+                _favoriteTracks.postValue(it)
             }
         }
     }
@@ -39,7 +39,7 @@ class MediaFavoriteFragmentViewModel(
         if (isClickAllowed) {
             clickJob = viewModelScope.launch(Dispatchers.IO) {
                 isClickAllowed = false
-                delay(MediaFavoriteFragmentViewModel.CLICK_DEBOUNCE_DELAY)
+                delay(MediaFavoriteViewModel.CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
             }
         }
